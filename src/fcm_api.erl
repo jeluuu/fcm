@@ -33,6 +33,7 @@ push(Message, ApiKey) ->
         {ok, {{_, 200, _}, _Headers, Body}} ->
             Json = jsx:decode(Body),
             ?INFO_MSG("Result was: ~p~n", [Json]),
+            io:format("~n-------- ~p ------~p------------~n",[Body,Json]),
             {ok, result_from(Json)};
         {ok, {{_, 400, _}, _, Body}} ->
             ?ERROR_MSG("Error in request. Reason was: Bad Request - ~p~n", [Body]),
@@ -61,6 +62,7 @@ push(Message, ApiKey) ->
 
 result_from(Json) ->
     {
+    
       proplists:get_value(<<"multicast_id">>, Json),
       proplists:get_value(<<"success">>, Json),
       proplists:get_value(<<"failure">>, Json),
