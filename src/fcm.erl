@@ -95,6 +95,7 @@ do_backoff(RetryAfter, RegIds, Message, Key, Retry) when (Retry >= 0) ->
 do_backoff(_, _, _, _, _) -> ok.
 
 parse(Result) ->
+    io:format("~n-------------~p-----------~n",[Result]),
     case {
       proplists:get_value(<<"error">>, Result),
       proplists:get_value(<<"message_id">>, Result),
