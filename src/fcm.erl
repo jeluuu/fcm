@@ -94,7 +94,9 @@ do_backoff(RetryAfter, RegIds, Message, Key, Retry) when (Retry >= 0) ->
     end;
 do_backoff(_, _, _, _, _) -> ok.
 
-parse(Result) ->
+parse(Result1) ->
+    Result = proplists:from_map(Result1),
+
     io:format("~n-------------~p-----------~n",[Result]),
     case {
       proplists:get_value(<<"error">>, Result),
