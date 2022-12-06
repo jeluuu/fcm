@@ -31,7 +31,8 @@ push(RegIds, Message, ApiKey) ->
 push(Message, ApiKey) ->
     try httpc:request(post, ?HTTP_REQUEST(ApiKey, Message), [], ?HTTP_OPTIONS) of
         {ok, {{_, 200, _}, _Headers, Body}} ->
-            Json = jsx:decode(Body),
+            % Json = jsx:decode(Body),
+            {Json} = jiffy:decode(Body),
             ?INFO_MSG("Result was: ~p~n", [Json]),
             io:format("~n-------- ~p ------~p------------~n",[Body,Json]),
             {ok, result_from(Json)};
