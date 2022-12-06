@@ -32,9 +32,11 @@ push(Message, ApiKey) ->
     try httpc:request(post, ?HTTP_REQUEST(ApiKey, Message), [], ?HTTP_OPTIONS) of
         {ok, {{_, 200, _}, _Headers, Body}} ->
             % Json = jsx:decode(Body),
-            {Json} = jiffy:decode(Body),
+            % {Json} = jiffy:decode(Body),
+            Jsonn = jsx:decode(Body),
+            Json = proplists:from_map(Jsonn),
             ?INFO_MSG("Result was: ~p~n", [Json]),
-            io:format("~n-------- ~p ------~p------------~n",[Body,Json]),
+            io:format("~n-------- ~p ------~p------------~n",[Body,proplists:from_map(Jsonn)]),
             {ok, result_from(Json)};
         {ok, {{_, 400, _}, _, Body}} ->
             ?ERROR_MSG("Error in request. Reason was: Bad Request - ~p~n", [Body]),
@@ -63,7 +65,6 @@ push(Message, ApiKey) ->
 
 result_from(Json) ->
     {
-    
       proplists:get_value(<<"multicast_id">>, Json),
       proplists:get_value(<<"success">>, Json),
       proplists:get_value(<<"failure">>, Json),
