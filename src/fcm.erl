@@ -96,8 +96,7 @@ do_backoff(_, _, _, _, _) -> ok.
 
 parse(Result1) ->
     Result = proplists:from_map(Result1),
-
-    io:format("~n-------------~p-----------~n",[Result]),
+    % io:format("~n-------------~p-----------~n",[Result]),
     case {
       proplists:get_value(<<"error">>, Result),
       proplists:get_value(<<"message_id">>, Result),
